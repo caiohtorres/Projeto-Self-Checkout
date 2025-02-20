@@ -1,5 +1,6 @@
 "use client";
 import { Product } from "@prisma/client";
+import { projectUpdate } from "next/dist/build/swc/generated-native";
 import { createContext, ReactNode, useState } from "react";
 
 interface CartProduct extends Pick<Product, "id" | "name" | "price" | "imageUrl">{
@@ -29,7 +30,22 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
     }
 
     const addProduct = (product: CartProduct) => {
-        setProducts(prev => ([...prev, product]))
+        
+        const productIsAlreadyOnTheCart = products.some(prevProducts => prevProducts.id === product.id)
+            if (!productIsAlreadyOnTheCart){
+                return setProducts([...products, product]);
+            }
+        setProducts(prevProducts => {
+            return prevProducts.map(prevProducts => {
+                if(prevProducts.id === product.id){
+                    return {
+                        ...prevProducts,
+                        quantity: prevProducts.quantity + product.quantity
+                    }
+                }
+                return prevProducts;
+            })
+        })
     }
 
     return (
