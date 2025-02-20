@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import { db } from "@/lib/prisma";
 
 import RestaurantCategories from "./components/categories";
