@@ -97,7 +97,7 @@ const ProductDetails = ({ product}: ProductDetailsProps) => {
             </div>
 
             <Button className="w-full rounded-full mt-2" onClick={handleAddToCart}>
-                Adicionar ao carrinho
+                Adicionar à sacola
             </Button>
 
         </div>

@@ -23,7 +23,7 @@ const CartSheet = () => {
       <Sheet open={isOpen} onOpenChange={toggleCart}>
         <SheetContent className="w-[80%]">
           <SheetHeader className="text-left">
-            <SheetTitle>Carrinho</SheetTitle>
+            <SheetTitle>Sacola</SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
           <div className="flex h-full flex-col py-5">
