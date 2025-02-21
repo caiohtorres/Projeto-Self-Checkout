@@ -21,6 +21,11 @@ interface OrderListProps {
         orderProducts: {
           include: {
             order: true;
+            product: {
+              select: {
+                name: true;
+              };
+            };
           };
         };
       };

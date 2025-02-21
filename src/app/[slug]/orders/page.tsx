@@ -35,6 +35,7 @@ const OrdersPage = async ({ searchParams }: OrdersPageProps) => {
       orderProducts: {
         include: {
           product: true,
+          order: true,
         },
       },
     },

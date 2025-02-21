@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuCategory, Prisma, Restaurant } from "@prisma/client";
+import { MenuCategory, Prisma } from "@prisma/client";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import { useContext, useState } from "react";
@@ -24,13 +24,12 @@ type MenuCategoriesWithProducts = Prisma.MenuCategoryGetPayload<{
 }>;
 
 const RestaurantCategories = ({ restaurant }: RestaurantCategoriesProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<
-    MenuCategoriesWithProducts[0]
-  >(restaurant.menuCategories[0]);
+  const [selectedCategory, setSelectedCategory] =
+    useState<MenuCategoriesWithProducts>(restaurant.menuCategories[0]);
   const { products, total, toggleCart, totalQuantity } =
     useContext(CartContext);
 
-  const handleCategoryClick = (category: MenuCategory) =>
+  const handleCategoryClick = (category: MenuCategoriesWithProducts) =>
     setSelectedCategory(category);
   const getCategoryButtonVariant = (category: MenuCategory) =>
     selectedCategory.id === category.id ? "default" : "secondary";
