@@ -13,7 +13,6 @@ import { formatCurrency } from "@/helpers/format-currency";
 
 import { CartContext } from "../contexts/cart";
 import CartProductItem from "./cart-product-item";
-import FinishOrderButton from "./finish-order-dialog";
 import FinishOrderDialog from "./finish-order-dialog";
 
 const CartSheet = () => {
