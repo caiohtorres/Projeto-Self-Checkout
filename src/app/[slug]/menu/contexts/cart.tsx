@@ -3,7 +3,7 @@ import { Product } from "@prisma/client";
 import { projectUpdate } from "next/dist/build/swc/generated-native";
 import { createContext, ReactNode, useState } from "react";
 
-interface CartProduct extends Pick<Product, "id" | "name" | "price" | "imageUrl">{
+export interface CartProduct extends Pick<Product, "id" | "name" | "price" | "imageUrl">{
     quantity: number;
 }
 
