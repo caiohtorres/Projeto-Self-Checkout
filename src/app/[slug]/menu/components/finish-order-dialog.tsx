@@ -1,13 +1,13 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ConsumptionMethod } from "@prisma/client";
+import {loadStripe} from "@stripe/stripe-js"
 import { Loader2Icon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useParams } from "next/navigation";
 import{useContext, useTransition} from "react"
 import { FormProvider, useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
-import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { createOrder } from "../actions/create-order";
+import { createStripeCheckout } from "../actions/create-stripe-checkout";
 import { CartContext } from "../contexts/cart";
 import { isValidCPF } from "../helpers/cpf";
 
@@ -73,21 +74,24 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   const onSubmit = async (data: FormSchema) => {
     try {
       const consumptionMethod = searchParams.get("consumptionMethod") as ConsumptionMethod;
-      startTransition(async ()=>{
-        await createOrder({
+
+        const order = await createOrder({
           consumptionMethod,
           customerCpf: data.cpf,
           customerName: data.name,
           products,
           slug,
+        });
+        const stripeCheckout = await createStripeCheckout({ products, orderId: order.id });
+        if (!stripeCheckout) throw new Error("Failed to create Stripe checkout session");
+        const { sessionId } = stripeCheckout;
+        if(!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) return 
+        const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+        stripe?.redirectToCheckout({
+          sessionId: sessionId,
         })
-        onOpenChange(false)
-        toast.success("Pedido finalizado com sucesso!")
-      })
-
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
     } 
   };
 

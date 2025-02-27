@@ -37,6 +37,8 @@ const getStatusLabel = (status: OrderStatus) => {
   if (status === "FINISHED") return "Finalizado";
   if (status === "IN_PREPARATION") return "Em preparo";
   if (status === "PENDING") return "Pendente";
+  if (status ==="PAYMENT_CONFIRMED") return "Pagamento confirmado"
+  if (status ==="PAYMENT_FAILED") return "Pagamento falgou"
   return "";
 };
 
