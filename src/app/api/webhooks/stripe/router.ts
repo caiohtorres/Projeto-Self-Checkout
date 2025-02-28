@@ -1,6 +1,5 @@
-import { Restaurant } from '@prisma/client';
+
 import { revalidatePath } from "next/cache";
-import { ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js';
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -24,9 +23,10 @@ export async function POST(request: Request){
     signature,
     webhookSecret,
   )
-  const paymentIsSucessful = event.type === "checkout.session.completed";
-  if (paymentIsSucessful){
-    const orderId = event.data.object.metadata?.orderId
+
+  switch (event.type){
+    case 'checkout.session.completed': {
+      const orderId = event.data.object.metadata?.orderId
     if(!orderId) return NextResponse.json({
       received: true,
     })
@@ -45,7 +45,32 @@ export async function POST(request: Request){
         }
       }
     })
-    revalidatePath(`/${order.restaurant.slug}/orders`)
+    revalidatePath(`/${order.restaurant.slug}/menu`)
+    break
+    }
+    case 'charge.failed': {
+      const orderId = event.data.object.metadata?.orderId
+    if(!orderId) return NextResponse.json({
+      received: true,
+    })
+    const order = await db.order.update({
+      where: {
+        id: Number(orderId), 
+      },
+      data: {
+        status: "PAYMENT_FAILED"
+      },
+      include: {
+        restaurant: {
+          select: {
+            slug: true,
+          }
+        }
+      }
+    })
+    revalidatePath(`/${order.restaurant.slug}/menu`)
+    break
+    }
   }
   return NextResponse.json({
     received: true,

@@ -1,18 +1,23 @@
 "use server"
 
-import {headers} from 'next/headers'
+import type { ConsumptionMethod } from '@prisma/client'
+import { headers } from 'next/headers'
 import Stripe from "stripe"
 
 import { db } from '@/lib/prisma'
 
 import type { CartProduct } from "../contexts/cart"
+import { removeCpfPunctuation } from '../helpers/cpf'
 
 interface createStripeCheckoutImput{
   products: CartProduct[],
   orderId: number,
+  slug: string,
+  consumptionMethod: ConsumptionMethod,
+  cpf: string,
 }
 
-export const createStripeCheckout = async ({products, orderId}: createStripeCheckoutImput) => {
+export const createStripeCheckout = async ({products, orderId, slug, consumptionMethod, cpf}: createStripeCheckoutImput) => {
   
   try {
     const productsWithPrices = await db.product.findMany({
@@ -25,12 +30,14 @@ export const createStripeCheckout = async ({products, orderId}: createStripeChec
     })
     const reqHeader = await headers();
     const origin = reqHeader.get('origin') ?? ""
-
+    const searchParams = new URLSearchParams();
+    searchParams.set("consumptionMethod", consumptionMethod)
+    searchParams.set("cpf", removeCpfPunctuation(cpf))
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
-      success_url:origin,
-      cancel_url: origin,
+      success_url:`${origin}/${slug}/orders?${searchParams.toString()}`,
+      cancel_url: `${origin}/${slug}/orders?${searchParams.toString()}`,
       metadata: {
         orderId,
       },
