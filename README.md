@@ -1,3 +1,6 @@
+Link do projeto hospedado:
+ https://projeto-self-checkout.vercel.app/
+
 🛒 Projeto Self-Checkout
 Este projeto é um sistema de self-checkout, permitindo que clientes realizem compras de forma autônoma, sem a necessidade de um operador de caixa. Ele inclui funcionalidades como carrinho de compras, cálculo automático de preços e processamento de pagamentos na Stripe (atualmente está desativado mas o código está pronto).
 
