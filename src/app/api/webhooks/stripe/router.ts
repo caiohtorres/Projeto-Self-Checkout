@@ -45,7 +45,7 @@ export async function POST(request: Request){
         }
       }
     })
-    revalidatePath(`/${order.restaurant.slug}/menu`)
+    revalidatePath(`/${order.restaurant.slug}/ordeers`)
     break
     }
     case 'charge.failed': {
@@ -68,7 +68,7 @@ export async function POST(request: Request){
         }
       }
     })
-    revalidatePath(`/${order.restaurant.slug}/menu`)
+    revalidatePath(`/${order.restaurant.slug}/orders`)
     break
     }
   }
