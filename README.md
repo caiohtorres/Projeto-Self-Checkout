@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🛒 Projeto Self-Checkout
+Este projeto é um sistema de self-checkout, permitindo que clientes realizem compras de forma autônoma, sem a necessidade de um operador de caixa. Ele inclui funcionalidades como carrinho de compras, cálculo automático de preços e processamento de pagamentos na Stripe (atualmente está desativado mas o código está pronto).
 
-## Getting Started
+📸 Demonstração
 
-First, run the development server:
+![Tela Inicial](https://private-user-images.githubusercontent.com/118904613/418058184-5934e38c-97dc-4b40-b3bb-808b0ee84352.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDA3NTMzMjAsIm5iZiI6MTc0MDc1MzAyMCwicGF0aCI6Ii8xMTg5MDQ2MTMvNDE4MDU4MTg0LTU5MzRlMzhjLTk3ZGMtNGI0MC1iM2JiLTgwOGIwZWU4NDM1Mi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyOFQxNDMwMjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mMjJmYzE0ZDYyY2E0MGZjNmJhYmM4MGYyZjZiNTc4OGUyOThmODZlNWUwNmRkYTAyMzgyNTVlZmQ0NzcyYzhjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.GHAgbq6N9tLg5_-l19So9TEyPLfM5xKrflFuUUQacjg)
+![Tela de Inicio Restaurante](https://private-user-images.githubusercontent.com/118904613/418058214-37087af3-5622-4658-9069-9e7d2ba9f4f5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDA3NTMzMjAsIm5iZiI6MTc0MDc1MzAyMCwicGF0aCI6Ii8xMTg5MDQ2MTMvNDE4MDU4MjE0LTM3MDg3YWYzLTU2MjItNDY1OC05MDY5LTllN2QyYmE5ZjRmNS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyOFQxNDMwMjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mYzJjMzk2ZGQxZGVmMWU4N2RiMTk2MzczMTg5NTc1OWM2MzAwM2I3NzhhYWU4OWIyY2I1NjAxYzRlNmZiOGNkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.ssN1_pSUszyRnaVoJ5LBgscN9I_-wBbiwqg8OEzvG7w)
+![Tela do Menu](https://private-user-images.githubusercontent.com/118904613/418058295-94612f0d-5641-4cae-9981-8be4e818a28e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDA3NTMzMjAsIm5iZiI6MTc0MDc1MzAyMCwicGF0aCI6Ii8xMTg5MDQ2MTMvNDE4MDU4Mjk1LTk0NjEyZjBkLTU2NDEtNGNhZS05OTgxLThiZTRlODE4YTI4ZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyOFQxNDMwMjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mNTkyMjg0NGJhNjZkNDViZDk0ZWQ4NDE4OTcwMzg4MDQzY2U2OWYxNWRiODg5ZDViMjgxOWE5YzgwOTk2YjU3JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.O-heiVwZcIJwjGP7G1B6M0Xr0I7jfLaa-lk8MidF16Q)
+![Tela do Pedido](https://private-user-images.githubusercontent.com/118904613/418058310-a2bba3c5-81f9-4241-acd8-42f191b00e81.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDA3NTMzMjAsIm5iZiI6MTc0MDc1MzAyMCwicGF0aCI6Ii8xMTg5MDQ2MTMvNDE4MDU4MzEwLWEyYmJhM2M1LTgxZjktNDI0MS1hY2Q4LTQyZjE5MWIwMGU4MS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyOFQxNDMwMjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zNmNkZGI1YjAyZGRjNGQ4OGI1MDNjZDVkOGRlOTQ4ZTVjMWFjODRkMTliYmQ5ZWM3MmFjZGEzOTkxZTVjZmI2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.0eWC3c_JXwr9MlVp-5-hHL16qcDAhrIYDAV9KtFGV1A)
+![Seus pedidos](https://private-user-images.githubusercontent.com/118904613/418058321-262b4121-690e-445e-984f-d4ef21aa71f5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDA3NTMzMjAsIm5iZiI6MTc0MDc1MzAyMCwicGF0aCI6Ii8xMTg5MDQ2MTMvNDE4MDU4MzIxLTI2MmI0MTIxLTY5MGUtNDQ1ZS05ODRmLWQ0ZWYyMWFhNzFmNS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjI4JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIyOFQxNDMwMjBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jMjQyOTBhNGFmMzcyZjkxYmVhMzE2YTg0MjU4OGZlZjVmMTJmYzQ0ZGM2MzMyMGIzYzUxMTQ3ODMwYWI4OGQ5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.mMH38yUk7v9FjpIesu9rDnWogThGUDtzRhf_NWrQYR0)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🚀 Tecnologias Utilizadas
+ReactJs, NodeJs, NextJs, TailwindCss, ShadCN, Prisma
+Banco de Dados: NeonDB
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+📌 Funcionalidades
+Adicionar/remover produtos ao carrinho
+Cálculo automático do valor total
+Pagamento via cartão na Stripe
+Registro de compras no banco de dados
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🤝 Contribuição
+Se quiser contribuir, faça um fork do repositório, crie uma branch com sua funcionalidade (git checkout -b minha-feature) e depois envie um pull request.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
