@@ -1,11 +1,11 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ConsumptionMethod } from "@prisma/client";
-import {loadStripe} from "@stripe/stripe-js"
+import { loadStripe } from "@stripe/stripe-js";
 import { Loader2Icon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useParams } from "next/navigation";
-import{useContext, useState} from "react"
+import { revalidatePath } from "next/cache";
+import { useParams, useSearchParams } from "next/navigation";
+import { useContext, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
 import { z } from "zod";
@@ -95,6 +95,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
       console.error(error);
     } finally {
       setIsLoading(false)
+      revalidatePath(`/${slug}/orders`)
     }
   };
 
